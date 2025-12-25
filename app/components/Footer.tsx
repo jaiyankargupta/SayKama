@@ -73,18 +73,22 @@ export default function Footer(): React.JSX.Element {
             {/* Brand Section */}
             <motion.div {...fadeInUp} className="lg:col-span-4">
               <Link href="/" className="flex items-center gap-3 mb-6 group">
-                <div className="relative">
-                  <Image
-                    src="/logo.png"
-                    alt="SayKama logo"
-                    width={56}
-                    height={56}
-                    className="rounded-xl transition-transform group-hover:scale-105"
-                  />
+                <Image
+                  src="/logo.png"
+                  alt="SayKama"
+                  width={56}
+                  height={56}
+                  className="transition-transform group-hover:scale-105"
+                  style={{ objectFit: "contain", background: "transparent" }}
+                />
+                <div className="flex flex-col">
+                  <span className="text-2xl font-bold bg-gradient-to-r from-emerald-400 to-teal-400 bg-clip-text text-transparent tracking-tight">
+                    SayKama
+                  </span>
+                  <span className="text-[10px] font-medium text-emerald-400/70 tracking-wider">
+                    PREMIUM SKINCARE
+                  </span>
                 </div>
-                <span className="text-2xl font-bold bg-gradient-to-r from-emerald-400 to-teal-400 bg-clip-text text-transparent">
-                  SayKama
-                </span>
               </Link>
               <p className="text-white/70 leading-relaxed mb-6">
                 Discover the power of nature with our premium skincare and

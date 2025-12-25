@@ -36,7 +36,7 @@ export default function TestimonialsSlider({
         .testimonial-slider {
           display: flex;
           gap: 24px;
-          animation: slideTestimonials 30s linear infinite;
+          animation: slideTestimonials 60s linear infinite;
         }
         .testimonial-slider:hover {
           animation-play-state: paused;

@@ -33,6 +33,7 @@ export default function AdminLoginPage(): React.JSX.Element {
       const res = await fetch("/api/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
+        credentials: "include",
         body: JSON.stringify({ email, password }),
       });
 
@@ -50,12 +51,11 @@ export default function AdminLoginPage(): React.JSX.Element {
         return;
       }
 
-      // Redirect to admin dashboard
-      router.push("/dashboard");
+      // Use window.location to ensure cookies are sent with the redirect
+      window.location.href = "/dashboard";
     } catch (err: unknown) {
       const error = err as Error;
       setError(error?.message || "An unexpected error occurred");
-    } finally {
       setLoading(false);
     }
   }

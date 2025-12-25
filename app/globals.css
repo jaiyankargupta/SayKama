@@ -113,7 +113,9 @@ body {
     width: 48px;
     height: 48px;
     object-fit: contain;
-    border-radius: 10px;
+    background: transparent !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
 }
 
 .site-brand .title {
@@ -672,7 +674,9 @@ body {
 }
 
 .footer-logo img {
-    border-radius: 12px;
+    background: transparent !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
 }
 
 .footer-description {
@@ -920,4 +924,35 @@ html {
     .section {
         padding: 48px 0;
     }
+}
+
+/* Logo styling - ensure transparent background */
+img[src*="logo.png"],
+img[alt*="SayKama"],
+img[alt*="logo"] {
+    background: transparent !important;
+    background-color: transparent !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    backdrop-filter: none !important;
+}
+
+/* Remove background from Next.js Image component wrapper */
+span[style*="display:inline-block"] img[src*="logo"],
+span[style*="display:inline-block"] img[alt*="SayKama"] {
+    background: transparent !important;
+}
+
+span[style*="display:inline-block"]:has(img[src*="logo"]),
+span[style*="display:inline-block"]:has(img[alt*="SayKama"]) {
+    background: transparent !important;
+    background-color: transparent !important;
+}
+
+/* Additional logo transparency rules */
+a img[src*="logo.png"],
+a img[alt*="SayKama"] {
+    background: transparent !important;
+    background-color: transparent !important;
+    mix-blend-mode: normal !important;
 }

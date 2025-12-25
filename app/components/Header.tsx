@@ -26,6 +26,26 @@ export default function Header(): React.JSX.Element {
   const [showMobileSearch, setShowMobileSearch] = useState<boolean>(false);
   const [showDropdown, setShowDropdown] = useState<boolean>(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState<boolean>(false);
+  const [user, setUser] = useState<any>(null);
+  const [showUserMenu, setShowUserMenu] = useState<boolean>(false);
+  const [hoverTimeout, setHoverTimeout] = useState<NodeJS.Timeout | null>(null);
+
+  useEffect(() => {
+    async function checkAuth() {
+      try {
+        const res = await fetch("/api/auth/me", {
+          credentials: "include",
+        });
+        if (res.ok) {
+          const data = await res.json();
+          setUser(data.user);
+        }
+      } catch (error) {
+        console.error("Auth check failed:", error);
+      }
+    }
+    checkAuth();
+  }, []);
 
   useEffect(() => {
     function onResize() {
@@ -131,24 +151,33 @@ export default function Header(): React.JSX.Element {
 
             {/* Logo */}
             <Link href="/" className="flex items-center gap-2 md:gap-3 group">
-              <div className="relative">
-                <Image
-                  src="/logo.png"
-                  alt="SayKama logo"
-                  width={40}
-                  height={40}
-                  className="rounded-lg transition-transform group-hover:scale-105 md:w-[50px] md:h-[50px]"
-                  style={{ objectFit: "contain" }}
-                />
+              <Image
+                src="/logo.png"
+                alt="SayKama"
+                width={40}
+                height={40}
+                className="transition-transform group-hover:scale-105 md:w-[50px] md:h-[50px]"
+                style={{ objectFit: "contain", background: "transparent" }}
+              />
+              <div className="flex flex-col">
+                <motion.span
+                  className={`text-xl md:text-2xl font-bold tracking-tight ${
+                    isScrolled
+                      ? "bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent"
+                      : "text-white"
+                  }`}
+                  whileHover={{ scale: 1.02 }}
+                >
+                  SayKama
+                </motion.span>
+                <span
+                  className={`text-[10px] md:text-xs font-medium tracking-wider ${
+                    isScrolled ? "text-emerald-600/70" : "text-emerald-200"
+                  }`}
+                >
+                  PREMIUM SKINCARE
+                </span>
               </div>
-              <motion.span
-                className={`text-xl md:text-2xl font-bold bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent ${
-                  !isScrolled ? "text-white" : ""
-                }`}
-                whileHover={{ scale: 1.05 }}
-              >
-                SayKama
-              </motion.span>
             </Link>
 
             {/* Desktop Navigation */}
@@ -282,15 +311,80 @@ export default function Header(): React.JSX.Element {
                 </span>
               </Link>
 
-              {/* Get Started Button */}
-              <Link
-                href="/login"
-                className="hidden sm:flex items-center gap-1 md:gap-2 px-3 md:px-5 py-2 md:py-2.5 bg-gradient-to-r from-emerald-600 to-teal-600 text-white font-medium rounded-lg hover:shadow-lg transition-all hover:scale-105 text-sm md:text-base"
-              >
-                <User className="w-3.5 h-3.5 md:w-4 md:h-4" />
-                <span className="hidden md:inline">Get Started</span>
-                <span className="md:hidden">Login</span>
-              </Link>
+              {/* User Menu / Login Button */}
+              {user ? (
+                <div
+                  className="hidden sm:block relative"
+                  onMouseEnter={() => {
+                    if (hoverTimeout) clearTimeout(hoverTimeout);
+                    const timeout = setTimeout(
+                      () => setShowUserMenu(true),
+                      200,
+                    );
+                    setHoverTimeout(timeout);
+                  }}
+                  onMouseLeave={() => {
+                    if (hoverTimeout) clearTimeout(hoverTimeout);
+                    const timeout = setTimeout(
+                      () => setShowUserMenu(false),
+                      150,
+                    );
+                    setHoverTimeout(timeout);
+                  }}
+                >
+                  <button className="w-10 h-10 bg-gradient-to-r from-emerald-600 to-teal-600 rounded-full flex items-center justify-center text-white hover:shadow-lg transition-all hover:scale-110">
+                    <User className="w-5 h-5" />
+                  </button>
+
+                  {showUserMenu && (
+                    <div className="absolute right-0 mt-2 w-48 bg-white rounded-xl shadow-xl py-2 z-50 border border-gray-100">
+                      <Link
+                        href="/dashboard"
+                        className="flex items-center gap-2 px-4 py-2.5 text-gray-800 hover:bg-emerald-50 hover:text-emerald-600 transition-colors"
+                        onClick={() => setShowUserMenu(false)}
+                      >
+                        <User className="w-4 h-4" />
+                        Dashboard
+                      </Link>
+                      <Link
+                        href="/dashboard/profile"
+                        className="flex items-center gap-2 px-4 py-2.5 text-gray-800 hover:bg-emerald-50 hover:text-emerald-600 transition-colors"
+                        onClick={() => setShowUserMenu(false)}
+                      >
+                        <User className="w-4 h-4" />
+                        Profile
+                      </Link>
+                      <Link
+                        href="/dashboard/orders"
+                        className="flex items-center gap-2 px-4 py-2.5 text-gray-800 hover:bg-emerald-50 hover:text-emerald-600 transition-colors"
+                        onClick={() => setShowUserMenu(false)}
+                      >
+                        <ShoppingBag className="w-4 h-4" />
+                        Orders
+                      </Link>
+                      <hr className="my-2 border-gray-200" />
+                      <button
+                        onClick={async () => {
+                          await fetch("/api/auth/logout", { method: "POST" });
+                          window.location.href = "/";
+                        }}
+                        className="flex items-center gap-2 w-full text-left px-4 py-2.5 text-red-600 hover:bg-red-50 transition-colors"
+                      >
+                        <X className="w-4 h-4" />
+                        Logout
+                      </button>
+                    </div>
+                  )}
+                </div>
+              ) : (
+                <Link
+                  href="/login"
+                  className="hidden sm:flex items-center gap-1 md:gap-2 px-3 md:px-5 py-2 md:py-2.5 bg-gradient-to-r from-emerald-600 to-teal-600 text-white font-medium rounded-lg hover:shadow-lg transition-all hover:scale-105 text-sm md:text-base"
+                >
+                  <User className="w-3.5 h-3.5 md:w-4 md:h-4" />
+                  <span>Login</span>
+                </Link>
+              )}
             </div>
           </div>
         </div>
@@ -322,11 +416,17 @@ export default function Header(): React.JSX.Element {
                       alt="SayKama"
                       width={36}
                       height={36}
-                      className="rounded-lg sm:w-[40px] sm:h-[40px]"
+                      className="sm:w-[40px] sm:h-[40px]"
+                      style={{ background: "transparent" }}
                     />
-                    <span className="text-lg sm:text-xl font-bold bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">
-                      SayKama
-                    </span>
+                    <div className="flex flex-col">
+                      <span className="text-lg sm:text-xl font-bold bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent tracking-tight">
+                        SayKama
+                      </span>
+                      <span className="text-[9px] sm:text-[10px] font-medium text-emerald-600/70 tracking-wider">
+                        PREMIUM SKINCARE
+                      </span>
+                    </div>
                   </div>
                   <button
                     onClick={() => setMobileMenuOpen(false)}
@@ -391,41 +491,37 @@ export default function Header(): React.JSX.Element {
                     Contact
                   </Link>
 
-                  <div className="pt-3 sm:pt-4">
-                    <Link
-                      href="/login"
-                      className="flex items-center justify-center gap-2 w-full px-4 sm:px-6 py-2.5 sm:py-3 bg-gradient-to-r from-emerald-600 to-teal-600 text-white font-medium rounded-lg hover:shadow-lg transition-all text-sm sm:text-base"
-                      onClick={() => setMobileMenuOpen(false)}
-                    >
-                      <User className="w-4 h-4 sm:w-5 sm:h-5" />
-                      Get Started
-                    </Link>
-                  </div>
-
-                  <Link
-                    href="/best-sellers"
-                    className="block px-4 py-3 rounded-lg font-medium text-gray-900 hover:bg-emerald-50 hover:text-emerald-600 transition-colors"
-                    onClick={() => setMobileMenuOpen(false)}
-                  >
-                    Best Sellers
-                  </Link>
-                  <Link
-                    href="/contact"
-                    className="block px-4 py-3 rounded-lg font-medium text-gray-900 hover:bg-emerald-50 hover:text-emerald-600 transition-colors"
-                    onClick={() => setMobileMenuOpen(false)}
-                  >
-                    Contact
-                  </Link>
-
-                  <div className="pt-4">
-                    <Link
-                      href="/login"
-                      className="flex items-center justify-center gap-2 w-full px-6 py-3 bg-gradient-to-r from-emerald-600 to-teal-600 text-white font-medium rounded-lg hover:shadow-lg transition-all"
-                      onClick={() => setMobileMenuOpen(false)}
-                    >
-                      <User className="w-5 h-5" />
-                      Get Started
-                    </Link>
+                  <div className="pt-3 sm:pt-4 border-t border-gray-200">
+                    {/* User Menu / Login Button */}
+                    {user ? (
+                      <div className="space-y-2">
+                        <Link
+                          href="/dashboard"
+                          className="flex items-center justify-center gap-2 w-full px-4 py-3 bg-gradient-to-r from-emerald-600 to-teal-600 text-white font-semibold rounded-xl"
+                          onClick={() => setMobileMenuOpen(false)}
+                        >
+                          <User className="w-5 h-5" />
+                        </Link>
+                        <button
+                          onClick={async () => {
+                            await fetch("/api/auth/logout", { method: "POST" });
+                            window.location.href = "/";
+                          }}
+                          className="flex items-center justify-center gap-2 w-full px-4 py-3 bg-red-500 text-white font-semibold rounded-xl"
+                        >
+                          <X className="w-5 h-5" />
+                        </button>
+                      </div>
+                    ) : (
+                      <Link
+                        href="/login"
+                        className="flex items-center justify-center gap-2 w-full px-4 py-3 sm:py-3.5 bg-gradient-to-r from-emerald-600 to-teal-600 text-white font-semibold rounded-xl hover:shadow-lg transition-all"
+                        onClick={() => setMobileMenuOpen(false)}
+                      >
+                        <User className="w-4 h-4 sm:w-5 sm:h-5" />
+                        Login
+                      </Link>
+                    )}
                   </div>
                 </nav>
               </div>
