@@ -151,26 +151,17 @@ export default function Header(): React.JSX.Element {
 
             {/* Logo */}
             <Link href="/" className="flex items-center gap-2 md:gap-3 group">
-              <div
-                className={`p-2.5 md:p-3 rounded-xl transition-all shadow-sm ${
-                  isScrolled
-                    ? "bg-gradient-to-br from-emerald-50 to-teal-50 border border-emerald-100"
-                    : "bg-white/15 backdrop-blur-sm border border-white/20"
-                }`}
-              >
-                <Image
-                  src="/logo.png"
-                  alt="SayKama"
-                  width={50}
-                  height={50}
-                  className="transition-transform group-hover:scale-105 md:w-[70px] md:h-[70px]"
-                  style={{ objectFit: "contain" }}
-                  priority
-                />
-              </div>
+              <Image
+                src="/logo.png"
+                alt="SayKama"
+                width={40}
+                height={40}
+                className="transition-transform group-hover:scale-105 md:w-[50px] md:h-[50px]"
+                style={{ objectFit: "contain", background: "transparent" }}
+              />
               <div className="flex flex-col">
                 <motion.span
-                  className={`text-2xl md:text-3xl font-bold tracking-tight ${
+                  className={`text-xl md:text-2xl font-bold tracking-tight ${
                     isScrolled
                       ? "bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent"
                       : "text-white"
@@ -180,7 +171,7 @@ export default function Header(): React.JSX.Element {
                   SayKama
                 </motion.span>
                 <span
-                  className={`text-xs md:text-sm font-medium tracking-wider ${
+                  className={`text-[10px] md:text-xs font-medium tracking-wider ${
                     isScrolled ? "text-emerald-600/70" : "text-emerald-200"
                   }`}
                 >
