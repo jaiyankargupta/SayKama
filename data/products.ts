@@ -5,6 +5,7 @@ export type Product = {
   shortDescription: string;
   description: string;
   price: number;
+  comparePrice?: number; // original price for showing discounts
   currency: string;
   images: string[];
   category: string;

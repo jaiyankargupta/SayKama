@@ -2,280 +2,208 @@
 
 import React from "react";
 import Link from "next/link";
+import { motion } from "framer-motion";
+import {
+  Home,
+  ShoppingBag,
+  Mail,
+  Search,
+  ArrowRight,
+  Sparkles,
+  Info,
+  MessageCircle,
+} from "lucide-react";
 import Footer from "./components/Footer";
 
 export default function NotFound() {
+  const fadeInUp = {
+    initial: { opacity: 0, y: 20 },
+    animate: { opacity: 1, y: 0 },
+    transition: { duration: 0.5 },
+  };
+
+  const quickLinks = [
+    {
+      icon: <ShoppingBag className="w-5 h-5" />,
+      text: "All Products",
+      href: "/shop",
+      color: "from-emerald-500 to-teal-500",
+    },
+    {
+      icon: <Sparkles className="w-5 h-5" />,
+      text: "Face Care",
+      href: "/shop/category/face-care",
+      color: "from-purple-500 to-pink-500",
+    },
+    {
+      icon: <Info className="w-5 h-5" />,
+      text: "About Us",
+      href: "/about",
+      color: "from-blue-500 to-cyan-500",
+    },
+    {
+      icon: <MessageCircle className="w-5 h-5" />,
+      text: "Contact Us",
+      href: "/contact",
+      color: "from-orange-500 to-amber-500",
+    },
+  ];
+
   return (
     <>
-      <div
-        style={{
-          minHeight: "80vh",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          padding: "60px 24px",
-          background: "linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%)",
-        }}
-      >
-        <div
-          className="app-container"
-          style={{
-            textAlign: "center",
-            maxWidth: 800,
-          }}
-        >
-          {/* Large 404 Text with gradient */}
-          <div
-            style={{
-              fontSize: 140,
-              fontWeight: 900,
-              background: "linear-gradient(135deg, #0f172a 0%, #475569 100%)",
-              WebkitBackgroundClip: "text",
-              WebkitTextFillColor: "transparent",
-              backgroundClip: "text",
-              lineHeight: 1,
-              marginBottom: 24,
-              letterSpacing: "-0.02em",
-            }}
-          >
-            404
-          </div>
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-emerald-50 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden pt-32">
+        {/* Background Decorations */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <div className="absolute top-20 left-20 w-96 h-96 bg-emerald-200/20 rounded-full filter blur-3xl animate-pulse" />
+          <div className="absolute bottom-20 right-20 w-96 h-96 bg-purple-200/20 rounded-full filter blur-3xl animate-pulse delay-1000" />
+        </div>
 
-          {/* Decorative icon */}
-          <div
-            style={{
-              fontSize: 48,
-              marginBottom: 24,
-              opacity: 0.6,
-            }}
+        <div className="relative max-w-4xl mx-auto text-center">
+          {/* 404 Number */}
+          <motion.div
+            initial={{ scale: 0.8, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ duration: 0.6 }}
+            className="mb-8"
           >
-            🔍
-          </div>
+            <div className="text-[150px] md:text-[200px] font-black leading-none bg-gradient-to-r from-emerald-600 via-teal-600 to-cyan-600 bg-clip-text text-transparent">
+              404
+            </div>
+          </motion.div>
 
-          <h1
-            style={{
-              fontSize: 40,
-              fontWeight: 700,
-              color: "var(--foreground)",
-              marginBottom: 16,
-              lineHeight: 1.2,
-            }}
+          {/* Search Icon */}
+          <motion.div
+            initial={{ scale: 0 }}
+            animate={{ scale: 1 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-r from-emerald-600 to-teal-600 rounded-full mb-8 shadow-lg shadow-emerald-500/50"
+          >
+            <Search className="w-10 h-10 text-white" />
+          </motion.div>
+
+          {/* Title */}
+          <motion.h1
+            {...fadeInUp}
+            transition={{ delay: 0.3 }}
+            className="text-4xl md:text-5xl font-bold text-gray-900 mb-6"
           >
             Oops! Page Not Found
-          </h1>
+          </motion.h1>
 
-          <p
-            style={{
-              fontSize: 18,
-              color: "var(--muted)",
-              marginBottom: 40,
-              lineHeight: 1.7,
-              maxWidth: 600,
-              margin: "0 auto 40px",
-            }}
+          {/* Description */}
+          <motion.p
+            {...fadeInUp}
+            transition={{ delay: 0.4 }}
+            className="text-xl text-gray-600 mb-12 max-w-2xl mx-auto leading-relaxed"
           >
             We couldn&apos;t find the page you&apos;re looking for. It might
             have been moved, deleted, or perhaps the URL was mistyped.
-            Don&apos;t worry—let&apos;s get you back to exploring our natural
-            skincare products!
-          </p>
+            Don&apos;t worry—let&apos;s get you back on track!
+          </motion.p>
 
           {/* CTA Buttons */}
-          <div
-            style={{
-              display: "flex",
-              gap: 16,
-              justifyContent: "center",
-              flexWrap: "wrap",
-              marginBottom: 60,
-            }}
+          <motion.div
+            {...fadeInUp}
+            transition={{ delay: 0.5 }}
+            className="flex flex-wrap items-center justify-center gap-4 mb-16"
           >
-            <Link href="/" className="btn btn-primary" style={{ fontSize: 16 }}>
-              🏠 Back to Home
+            <Link
+              href="/"
+              className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-emerald-600 to-teal-600 text-white font-semibold rounded-lg hover:shadow-lg hover:shadow-emerald-500/50 transition-all hover:scale-105"
+            >
+              <Home className="w-5 h-5" />
+              Back to Home
             </Link>
             <Link
               href="/shop"
-              className="btn btn-secondary"
-              style={{ fontSize: 16 }}
+              className="inline-flex items-center gap-2 px-8 py-4 bg-white border-2 border-gray-900 text-gray-900 font-semibold rounded-lg hover:bg-gray-900 hover:text-white transition-all hover:scale-105"
             >
-              🛍️ Browse Products
+              <ShoppingBag className="w-5 h-5" />
+              Browse Products
             </Link>
             <Link
               href="/contact"
-              className="btn"
-              style={{
-                fontSize: 16,
-                background: "transparent",
-                border: "2px solid #e2e8f0",
-                color: "var(--foreground)",
-              }}
+              className="inline-flex items-center gap-2 px-8 py-4 bg-white border-2 border-gray-200 text-gray-900 font-semibold rounded-lg hover:bg-gray-50 transition-all hover:scale-105"
             >
-              📧 Contact Support
+              <Mail className="w-5 h-5" />
+              Contact Support
             </Link>
-          </div>
+          </motion.div>
 
-          {/* Popular Links Section */}
-          <div
-            style={{
-              marginTop: 48,
-              padding: "32px",
-              background: "white",
-              borderRadius: 20,
-              boxShadow: "0 10px 40px rgba(0, 0, 0, 0.06)",
-            }}
+          {/* Quick Links */}
+          <motion.div
+            {...fadeInUp}
+            transition={{ delay: 0.6 }}
+            className="bg-white rounded-3xl shadow-2xl p-8 md:p-10 backdrop-blur-sm border border-gray-100"
           >
-            <h2
-              style={{
-                fontSize: 22,
-                fontWeight: 700,
-                marginBottom: 24,
-                color: "var(--foreground)",
-              }}
-            >
+            <h2 className="text-2xl font-bold text-gray-900 mb-6">
               Quick Links
             </h2>
-            <div
-              style={{
-                display: "grid",
-                gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))",
-                gap: 16,
-              }}
-            >
-              <Link
-                href="/shop"
-                className="quick-link-card"
-                style={{
-                  padding: "16px 20px",
-                  background: "rgba(15, 23, 42, 0.03)",
-                  borderRadius: 12,
-                  textDecoration: "none",
-                  color: "var(--foreground)",
-                  fontWeight: 500,
-                  transition: "all 0.2s ease",
-                  border: "2px solid transparent",
-                  display: "block",
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.background = "rgba(15, 23, 42, 0.06)";
-                  e.currentTarget.style.borderColor = "#0f172a";
-                  e.currentTarget.style.transform = "translateY(-2px)";
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.background = "rgba(15, 23, 42, 0.03)";
-                  e.currentTarget.style.borderColor = "transparent";
-                  e.currentTarget.style.transform = "translateY(0)";
-                }}
-              >
-                🛒 All Products
-              </Link>
-              <Link
-                href="/shop/category/face-care"
-                className="quick-link-card"
-                style={{
-                  padding: "16px 20px",
-                  background: "rgba(15, 23, 42, 0.03)",
-                  borderRadius: 12,
-                  textDecoration: "none",
-                  color: "var(--foreground)",
-                  fontWeight: 500,
-                  transition: "all 0.2s ease",
-                  border: "2px solid transparent",
-                  display: "block",
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.background = "rgba(15, 23, 42, 0.06)";
-                  e.currentTarget.style.borderColor = "#0f172a";
-                  e.currentTarget.style.transform = "translateY(-2px)";
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.background = "rgba(15, 23, 42, 0.03)";
-                  e.currentTarget.style.borderColor = "transparent";
-                  e.currentTarget.style.transform = "translateY(0)";
-                }}
-              >
-                ✨ Face Care
-              </Link>
-              <Link
-                href="/about"
-                className="quick-link-card"
-                style={{
-                  padding: "16px 20px",
-                  background: "rgba(15, 23, 42, 0.03)",
-                  borderRadius: 12,
-                  textDecoration: "none",
-                  color: "var(--foreground)",
-                  fontWeight: 500,
-                  transition: "all 0.2s ease",
-                  border: "2px solid transparent",
-                  display: "block",
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.background = "rgba(15, 23, 42, 0.06)";
-                  e.currentTarget.style.borderColor = "#0f172a";
-                  e.currentTarget.style.transform = "translateY(-2px)";
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.background = "rgba(15, 23, 42, 0.03)";
-                  e.currentTarget.style.borderColor = "transparent";
-                  e.currentTarget.style.transform = "translateY(0)";
-                }}
-              >
-                ℹ️ About Us
-              </Link>
-              <Link
-                href="/contact"
-                className="quick-link-card"
-                style={{
-                  padding: "16px 20px",
-                  background: "rgba(15, 23, 42, 0.03)",
-                  borderRadius: 12,
-                  textDecoration: "none",
-                  color: "var(--foreground)",
-                  fontWeight: 500,
-                  transition: "all 0.2s ease",
-                  border: "2px solid transparent",
-                  display: "block",
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.background = "rgba(15, 23, 42, 0.06)";
-                  e.currentTarget.style.borderColor = "#0f172a";
-                  e.currentTarget.style.transform = "translateY(-2px)";
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.background = "rgba(15, 23, 42, 0.03)";
-                  e.currentTarget.style.borderColor = "transparent";
-                  e.currentTarget.style.transform = "translateY(0)";
-                }}
-              >
-                💬 Contact Us
-              </Link>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              {quickLinks.map((link, idx) => (
+                <motion.div
+                  key={idx}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: 0.7 + idx * 0.1 }}
+                >
+                  <Link
+                    href={link.href}
+                    className="group block p-6 bg-gray-50 rounded-2xl hover:bg-gray-100 transition-all hover:-translate-y-1 hover:shadow-lg"
+                  >
+                    <div
+                      className={`inline-flex items-center justify-center w-12 h-12 bg-gradient-to-r ${link.color} rounded-xl text-white mb-3 group-hover:scale-110 transition-transform`}
+                    >
+                      {link.icon}
+                    </div>
+                    <div className="font-semibold text-gray-900 text-sm">
+                      {link.text}
+                    </div>
+                    <ArrowRight className="w-4 h-4 text-gray-400 mt-2 opacity-0 group-hover:opacity-100 transition-opacity" />
+                  </Link>
+                </motion.div>
+              ))}
             </div>
-          </div>
+          </motion.div>
 
           {/* Help Text */}
-          <p
-            style={{
-              fontSize: 14,
-              color: "var(--muted)",
-              marginTop: 32,
-            }}
+          <motion.p
+            {...fadeInUp}
+            transition={{ delay: 0.8 }}
+            className="text-sm text-gray-600 mt-8"
           >
             Need assistance? Our support team is here to help.{" "}
             <Link
               href="/contact"
-              style={{
-                color: "#0f172a",
-                fontWeight: 600,
-                textDecoration: "underline",
-              }}
+              className="text-emerald-600 font-semibold hover:text-emerald-700 transition-colors underline"
             >
               Get in touch
             </Link>
-          </p>
+          </motion.p>
         </div>
       </div>
 
       <Footer />
+
+      <style jsx>{`
+        @keyframes pulse {
+          0%,
+          100% {
+            opacity: 0.2;
+          }
+          50% {
+            opacity: 0.4;
+          }
+        }
+
+        .animate-pulse {
+          animation: pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+
+        .delay-1000 {
+          animation-delay: 1s;
+        }
+      `}</style>
     </>
   );
 }

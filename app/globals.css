@@ -871,3 +871,53 @@ html {
 .animate-fade-in {
     animation: fadeInUp 0.6s ease-out;
 }
+
+/* Dashboard responsive styles */
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 32px;
+}
+
+@media (max-width: 768px) {
+    .dashboard-grid {
+        grid-template-columns: 1fr !important;
+    }
+}
+
+/* Mobile-first responsive utilities */
+@media (max-width: 768px) {
+    .app-container {
+        padding-left: 16px;
+        padding-right: 16px;
+    }
+
+    .section-title {
+        font-size: 24px !important;
+    }
+
+    h1 {
+        font-size: 28px !important;
+    }
+
+    h2 {
+        font-size: 22px !important;
+    }
+
+    .grid-cards {
+        grid-template-columns: 1fr !important;
+        gap: 16px !important;
+    }
+
+    .btn {
+        font-size: 15px;
+    }
+
+    .card {
+        padding: 16px;
+    }
+
+    .section {
+        padding: 48px 0;
+    }
+}
